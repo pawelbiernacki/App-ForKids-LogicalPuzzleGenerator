@@ -7,7 +7,7 @@ use base 'App::ForKids::LogicalPuzzleGenerator::Variable';
 
 
 
-our @fruits =
+our @professions =
 (
 	"wizard",
 	"warrior",
@@ -23,12 +23,12 @@ sub new
 	my $class = shift;
 	my $this = $class->SUPER::new(@_);
 
-	# select the fruits
+	# select the professions
 	for my $i (0..$$this{amount_of_values}-1)
 	{
 		while (1)
 		{
-			my $value = $fruits[int(rand()*@fruits)];
+			my $value = $professions[int(rand()*@professions)];
 			if (!grep {$_ eq $value } @{$$this{selected_values}})
 			{
 				push @{$$this{selected_values}}, $value;
