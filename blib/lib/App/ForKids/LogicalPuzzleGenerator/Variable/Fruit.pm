@@ -39,7 +39,13 @@ sub new
 	return $this;
 }
 
-sub give_description_I
+
+sub get_description
+{
+	return "Each has a different favourite fruit";
+}
+
+sub get_description_I
 {
 	my ($this, $fruit) = @_;
 	return sprintf("I like %s.", $fruit);
@@ -64,7 +70,7 @@ sub get_description_the_one_who
 }
 
 
-sub give_description_X
+sub get_description_X
 {
 	my ($this, $who, $fruit) = @_;
 	return sprintf("%s likes %s.", $who, $fruit);

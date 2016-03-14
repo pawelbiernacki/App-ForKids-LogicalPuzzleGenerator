@@ -8,6 +8,8 @@ use App::ForKids::LogicalPuzzleGenerator::Variable::Name;
 use App::ForKids::LogicalPuzzleGenerator::Variable::Color;
 use App::ForKids::LogicalPuzzleGenerator::Variable::Animal;
 use App::ForKids::LogicalPuzzleGenerator::Variable::Fruit;
+use App::ForKids::LogicalPuzzleGenerator::Variable::Race;
+use App::ForKids::LogicalPuzzleGenerator::Variable::Profession;
 use App::ForKids::LogicalPuzzleGenerator::Fact::True;
 use App::ForKids::LogicalPuzzleGenerator::Fact::NotTrue;
 use Capture::Tiny ':all';
@@ -35,12 +37,11 @@ while the field "solution" contains the data describing the solution.
 
     my $x = App::ForKids::LogicalPuzzleGenerator->new(range=>3, amount_of_facts_per_session => 4);
     
+    print $$x{intro_story};
+    
     print $$x{story};
     
-    for my $r (@{$$x{solution}})
-	{
-		print join(",", map { $$x{variable}[$_]{selected_values}[$$r{$_}] } sort keys %$r)."\n";
-	}
+    print $$x{solution_story};
 
 =head1 SUBROUTINES/METHODS
 
@@ -69,6 +70,8 @@ sub new {
 	$this->create_variables();
 	$this->generate_facts();
 	$this->generate_story();
+	$this->generate_solution_story();
+	$this->generate_intro_story();
 	
 	return $this;
 }
@@ -333,11 +336,11 @@ sub add_positive_fact_with_name_to_the_story
 	my $story = "";
 	if ($$f{a} == $current_wizard)
 	{
-		$story .= $$this{variable}[$$f{second}]->give_description_I($$this{variable}[$$f{second}]{selected_values}[$$f{b}])." ";
+		$story .= $$this{variable}[$$f{second}]->get_description_I($$this{variable}[$$f{second}]{selected_values}[$$f{b}])." ";
 	}
 	else
 	{
-		$story .= $$this{variable}[$$f{second}]->give_description_X(
+		$story .= $$this{variable}[$$f{second}]->get_description_X(
 				$$this{variable}[$$f{first}]{selected_values}[$$f{a}],
 				$$this{variable}[$$f{second}]{selected_values}[$$f{b}]
 				)." ";	
@@ -354,7 +357,7 @@ sub add_positive_fact_without_name_to_the_story
 	my ($this, $current_wizard, $f) = @_;
 	my $story = "";
 	
-	$story .= $$this{variable}[$$f{first}]->give_description_the_one_who($$this{variable}[$$f{first}]{selected_values}[$$f{a}])." ".
+	$story .= $$this{variable}[$$f{first}]->get_description_the_one_who($$this{variable}[$$f{first}]{selected_values}[$$f{a}])." ".
 		$$this{variable}[$$f{second}]->get_description_he_likes($$this{variable}[$$f{second}]{selected_values}[$$f{b}])." ";
 
 	return $story;
@@ -587,6 +590,48 @@ sub generate_story
 }
 
 
+=head2 generate_solution_story
+=cut
+
+sub generate_solution_story
+{
+	my $this = shift;
+
+	my $solution_story = "";
+
+	for my $r (@{$$this{solution}})
+	{
+		$solution_story .= join(" ", 
+			map { $$this{variable}[$_]->get_description_X($$this{variable}[0]{selected_values}[$$r{0}],
+				$$this{variable}[$_]{selected_values}[$$r{$_}]) } grep { $_ > 0 } sort keys %$r)."\n";
+	}
+
+	$$this{solution_story} = $solution_story;
+}
+
+=head2 generate_intro_story
+
+=cut
+sub generate_intro_story
+{
+	my $this = shift;
+	my $amount = $$this{amount_of_variables};
+	
+	my $intro_story = "";
+	
+	my @names = @{$$this{variable}[0]{selected_values}};
+	
+	$intro_story .= join(",", @names[0..$#names-1])." and ".$names[-1]." live here.\n";
+	
+	for my $v (1..$amount-1)
+	{
+		$intro_story .= $$this{variable}[$v]->get_description()." (".join(",",@{$$this{variable}[$v]{selected_values}}).").\n";
+	}
+	
+	$$this{intro_story} = $intro_story;
+}
+
+
 =head2 create_variables
 =cut
 
@@ -619,7 +664,7 @@ sub create_variables
 sub get_new_variable
 {
 	my $this = shift;
-	my $r = int(rand()*3);
+	my $r = int(rand()*5);
 
 	if ($r == 0)
 	{
@@ -632,6 +677,14 @@ sub get_new_variable
 	elsif ($r == 2)
 	{
 		return App::ForKids::LogicalPuzzleGenerator::Variable::Color->new(amount_of_values => $$this{amount_of_values});
+	}
+	elsif ($r == 3)
+	{
+		return App::ForKids::LogicalPuzzleGenerator::Variable::Race->new(amount_of_values => $$this{amount_of_values});
+	}
+	elsif ($r == 4)
+	{
+		return App::ForKids::LogicalPuzzleGenerator::Variable::Profession->new(amount_of_values => $$this{amount_of_values});
 	}
 }
 

@@ -1,4 +1,4 @@
-package App::ForKids::LogicalPuzzleGenerator::Variable::Fruit;
+package App::ForKids::LogicalPuzzleGenerator::Variable::Race;
 
 use strict;
 use warnings FATAL => 'all';
@@ -9,12 +9,12 @@ use base 'App::ForKids::LogicalPuzzleGenerator::Variable';
 
 our @fruits =
 (
-	"apples",
-	"pears",
-	"cherries",
-	"strawberries",
-	"pinapples",
-	"oranges"
+	"human",
+	"dwarf",
+	"elf",
+	"goblin",
+	"troll",
+	"orc"
 );
 
 
@@ -42,52 +42,52 @@ sub new
 
 sub get_description
 {
-	return "Each has a different favourite fruit";
+	return "Each belongs to a different race";
 }
 
 sub get_description_I
 {
-	my ($this, $fruit) = @_;
-	return sprintf("I like %s.", $fruit);
+	my ($this, $race) = @_;
+	return sprintf("I am a %s.", $race);
 }
 
 sub get_description_I_dont
 {
-	my ($this, $fruit) = @_;
-	return sprintf("I don't like %s.", $fruit);
+	my ($this, $race) = @_;
+	return sprintf("I am not a %s.", $race);
 }
 
 sub get_description_he_does_not
 {
-	my ($this, $fruit) = @_;
-	return sprintf("does not like %s.", $fruit);
+	my ($this, $race) = @_;
+	return sprintf("is not a %s.", $race);
 }
 
 sub get_description_the_one_who
 {
-	my ($this, $fruit) = @_;
-	return sprintf("The one who likes %s", $fruit);
+	my ($this, $race) = @_;
+	return sprintf("The %s", $race);
 }
 
 
 sub get_description_X
 {
-	my ($this, $who, $fruit) = @_;
-	return sprintf("%s likes %s.", $who, $fruit);
+	my ($this, $who, $race) = @_;
+	return sprintf("%s is a %s.", $who, $race);
 }
 
 
 
 sub get_description_X_does_not
 {
-	my ($this, $who, $fruit) = @_;
-	return sprintf("%s does not like %s.", $who, $fruit);
+	my ($this, $who, $race) = @_;
+	return sprintf("%s is not a %s.", $who, $race);
 }
 
 sub get_description_he_likes
 {
-	my ($this, $fruit) = @_;
-	return sprintf("likes %s.", $fruit);
+	my ($this, $race) = @_;
+	return sprintf("is a %s.", $race);
 }
 
 

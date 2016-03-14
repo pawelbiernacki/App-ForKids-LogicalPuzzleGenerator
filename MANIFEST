@@ -5,6 +5,8 @@ lib/App/ForKids/LogicalPuzzleGenerator/Variable/Animal.pm
 lib/App/ForKids/LogicalPuzzleGenerator/Variable/Color.pm
 lib/App/ForKids/LogicalPuzzleGenerator/Variable/Fruit.pm
 lib/App/ForKids/LogicalPuzzleGenerator/Variable/Name.pm
+lib/App/ForKids/LogicalPuzzleGenerator/Variable/Race.pm
+lib/App/ForKids/LogicalPuzzleGenerator/Variable/Profession.pm
 lib/App/ForKids/LogicalPuzzleGenerator/Fact.pm
 lib/App/ForKids/LogicalPuzzleGenerator/Fact/True.pm
 lib/App/ForKids/LogicalPuzzleGenerator/Fact/NotTrue.pm
